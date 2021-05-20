@@ -1,5 +1,15 @@
-exports.signUp = (req, res, next) => {
-  res.send('sign up!');
+const User = require('../models/User');
+exports.signUp = async (req, res, next) => {
+  const { username, email, password } = req.body;
+  try {
+    const user = await User.create({
+      username,
+      email,
+      password,
+    });
+  } catch (error) {
+    next(err);
+  }
 };
 exports.signIn = (req, res, next) => {
   res.send('signin');

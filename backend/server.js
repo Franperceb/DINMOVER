@@ -1,5 +1,8 @@
 require('dotenv').config({ path: './config.env' });
 const express = require('express');
+const connectDB = require('./config/db');
+
+connectDB();
 
 const app = express();
 
@@ -11,7 +14,7 @@ app.get('/', (req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 //conexion de rutas al server
-app.use('api/auth', require('./routes/auth'));
+app.use('/api/auth', require('./routes/auth'));
 
 const server = app.listen(PORT, () =>
   console.log(`server running on port  ${PORT}`)
@@ -28,3 +31,6 @@ process.on('unhandledRejection', (err, promise) => {
 // se conecta routes a server
 //Se crean controlladores
 //se crea el modelo del user
+// se conecta la db
+//se ajustan controllers a detalle
+//se autentica con JWT

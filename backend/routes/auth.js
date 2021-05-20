@@ -10,9 +10,9 @@ const {
 
 router.route('/signUp').post(signUp);
 
-router.route('signIn').post(signIn);
+router.route('/signIn').post(signIn);
 
-router.route('forgotPassword').post(forgotPassword);
+router.route('/forgotPassword').post(forgotPassword);
 
 router.route('/resetPassword/:resetToken').put(resetPassword);
 

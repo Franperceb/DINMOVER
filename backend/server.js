@@ -32,5 +32,6 @@ process.on('unhandledRejection', (err, promise) => {
 //Se crean controlladores
 //se crea el modelo del user
 // se conecta la db
-//se ajustan controllers a detalle
+//se realiza el errorHandler Middleware
+//se ajustan controllers a detalle uno por uno
 //se autentica con JWT

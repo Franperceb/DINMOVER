@@ -1,6 +1,7 @@
 require('dotenv').config({ path: './config.env' });
 const express = require('express');
 const connectDB = require('./config/db');
+const errorHandler = require('./middleware/error');
 
 connectDB();
 
@@ -15,6 +16,9 @@ const PORT = process.env.PORT || 5000;
 
 //conexion de rutas al server
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/private', require('./routes/private'));
+//middlewares
+app.use(errorHandler);
 
 const server = app.listen(PORT, () =>
   console.log(`server running on port  ${PORT}`)
@@ -26,7 +30,7 @@ process.on('unhandledRejection', (err, promise) => {
 });
 
 //PASOS: Fullstack app
-//configurar
+//configurar node, servidor.
 //escribir logica de rutas.
 // se conecta routes a server
 //Se crean controlladores
@@ -35,3 +39,5 @@ process.on('unhandledRejection', (err, promise) => {
 //se realiza el errorHandler Middleware
 //se ajustan controllers a detalle uno por uno
 //se autentica con JWT
+//Configurar middleware de ruta protegida
+//ajustar rutas en el server.js y routes.js con el middleware

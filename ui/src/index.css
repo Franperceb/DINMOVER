@@ -5,9 +5,31 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Bebas Neue', cursive;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+nav {
+  border-bottom: 3px solid #7927b6;
+  margin-bottom: 10px;
+}
+
+.desc_container {
+  margin-left: calc(-100vw / 2 + 100% / 2);
+  margin-right: calc(-100vw / 2 + 100% / 2);
+  max-width: 100vw;
+  height: 400px;
+  padding: 1.5rem;
+}
+
+.container-width {
+  width: 100%;
+}
+.card_container {
+  width: 100%;
+  height: 200px;
 }

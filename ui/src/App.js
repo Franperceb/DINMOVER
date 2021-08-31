@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import HomeScreen from './components/HomeScreen';
+import HomeScreen from './components/Home/HomeScreen';
 const App = () => {
   return (
     <Router>

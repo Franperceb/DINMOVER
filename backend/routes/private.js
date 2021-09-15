@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+import { Router } from 'express';
+const router = Router();
 const { getPrivateRoute } = require('../controllers/private');
 const { protect } = require('../middleware/auth');
 

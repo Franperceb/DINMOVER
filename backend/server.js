@@ -1,11 +1,14 @@
-require('dotenv').config({ path: './config.env' });
-const express = require('express');
-const connectDB = require('./config/db');
-const errorHandler = require('./middleware/error');
+import express from 'express';
+import dotenv from 'dotenv';
+import errorHandler from './middleware/error';
+import connectDB from './config/db';
+import HouseRoutes from './routes/house';
+import AuthRoutes from './routes/auth';
+import PrivateRoute from './routes/private';
 
-connectDB();
-
+dotenv.config({ path: './config.env' });
 const app = express();
+connectDB();
 
 app.use(express.json());
 
@@ -15,8 +18,9 @@ app.get('/', (req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 //conexion de rutas al server
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/private', require('./routes/private'));
+app.use('/api/auth', AuthRoutes);
+app.use('/api/houses', HouseRoutes);
+app.use('/api/private', PrivateRoute);
 //middlewares
 app.use(errorHandler);
 

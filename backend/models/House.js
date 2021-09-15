@@ -1,17 +1,20 @@
-const  {Schema ,  model} = require ('mongoose')
+import { Schema, model } from 'mongoose';
 
-
-const HouseSchema = new Schema({
-    
-    homeType = ["casa", "departamento","terreno"],
-    operationType = ["renta", "venta"],
-    address,
-    description,
-    rooms,
-    baths,
-    price,
-    pricem2,
-    meter2,
-
-
-});
+const HouseSchema = new Schema(
+  {
+    type: { type: String },
+    operationType: { type: String },
+    address: { type: String },
+    description: { type: String },
+    rooms: { type: Number },
+    baths: { type: Number },
+    price: { type: Number },
+    m2: { type: Number },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
+const House = model('House', HouseSchema);
+module.exports = House;

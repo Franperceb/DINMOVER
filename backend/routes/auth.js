@@ -1,12 +1,12 @@
 import { Router } from 'express';
-const router = Router();
-const {
+import {
   signUp,
   signIn,
   forgotPassword,
   resetPassword,
   logout,
-} = require('../controllers/auth');
+} from '../controllers/auth.js';
+const router = Router();
 
 router.route('/signUp').post(signUp);
 
@@ -18,4 +18,4 @@ router.route('/logout').get(logout);
 
 router.route('/resetPassword/:resetToken').put(resetPassword);
 
-module.exports = router;
+export default router;

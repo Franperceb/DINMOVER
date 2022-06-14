@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "babel-node server.js",
@@ -19,7 +20,7 @@
   },
   "homepage": "https://github.com/Franperceb/template-mern#readme",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",

@@ -1,8 +1,9 @@
 import { Router } from 'express';
+import { getPrivateRoute } from '../controllers/private.js';
+import { protect } from '../middleware/auth.js';
+
 const router = Router();
-const { getPrivateRoute } = require('../controllers/private');
-const { protect } = require('../middleware/auth');
 
 router.route('/').get(protect, getPrivateRoute);
 
-module.exports = router;
+export default router;

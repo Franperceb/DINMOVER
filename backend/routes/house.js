@@ -5,7 +5,7 @@ import {
   createHouse,
   updateHouseById,
   deleteHouseById,
-} from '../controllers/house';
+} from '../controllers/house.js';
 
 const router = Router();
 

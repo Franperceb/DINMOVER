@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const ErrorResponse = require('../utils/errorResponse');
-const User = require('../models/User');
+import jwt from 'jsonwebtoken';
+import ErrorResponse from '../utils/errorResponse.js';
+import User from '../models/User.js';
 
-exports.protect = async (req, res, next) => {
+export const protect = async (req, res, next) => {
   let token;
 
   if (

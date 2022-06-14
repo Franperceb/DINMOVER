@@ -1,7 +1,7 @@
-const crypto = require('crypto');
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import crypto from 'crypto';
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema({
   roles: [
     {
       ref: 'Role',
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
     },
   ],
   resetPasswordToken: String,
@@ -64,4 +64,4 @@ UserSchema.methods.getResetPasswordToken = function () {
 };
 const User = mongoose.model('User', UserSchema);
 
-module.exports = User;
+export default User;

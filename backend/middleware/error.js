@@ -1,5 +1,5 @@
 //treath all the errs responses catched
-const ErrorResponse = require('../utils/errorResponse');
+import ErrorResponse from '../utils/errorResponse.js';
 
 const errorHandler = (err, req, res, next) => {
   let error = { ...err };
@@ -20,4 +20,4 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
-module.exports = errorHandler;
+export default errorHandler;

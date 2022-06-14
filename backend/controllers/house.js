@@ -1,6 +1,6 @@
-const House = require('../models/House');
+import House from '../models/House.js';
 
-exports.createHouse = async (req, res, next) => {
+export const createHouse = async (req, res, next) => {
   const { type, operationType, address, description, rooms, baths, price, m2 } =
     req.body;
   try {
@@ -23,7 +23,7 @@ exports.createHouse = async (req, res, next) => {
     next(error);
   }
 };
-exports.getHouses = async (req, res, next) => {
+export const getHouses = async (req, res, next) => {
   try {
     const houses = await House.find();
     await res.status(201).json({ success: true, data: houses });
@@ -31,7 +31,7 @@ exports.getHouses = async (req, res, next) => {
     next(err);
   }
 };
-exports.getHouseById = async (req, res, next) => {
+export const getHouseById = async (req, res, next) => {
   const { houseId } = req.params;
   try {
     const house = await House.findById(houseId);
@@ -41,7 +41,7 @@ exports.getHouseById = async (req, res, next) => {
     next(err);
   }
 };
-exports.updateHouseById = async (req, res, next) => {
+export const updateHouseById = async (req, res, next) => {
   const { houseId } = req.params;
   try {
     const updatedHouse = await House.findByIdAndUpdate(houseId, req.body, {
@@ -56,7 +56,7 @@ exports.updateHouseById = async (req, res, next) => {
   }
 };
 
-exports.deleteHouseById = async (req, res, next) => {
+export const deleteHouseById = async (req, res, next) => {
   const { houseId } = req.params;
   try {
     await House.findByIdAndDelete(houseId);

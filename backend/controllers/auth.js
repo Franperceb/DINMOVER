@@ -1,9 +1,9 @@
-const User = require('../models/User');
-const ErrorResponse = require('../utils/errorResponse');
-const crypto = require('crypto');
-const sendEmail = require('../utils/sendEmail');
+import User from '../models/User.js';
+import ErrorResponse from '../utils/errorResponse.js';
+import crypto from 'crypto';
+import sendEmail from '../utils/sendEmail.js';
 
-exports.signUp = async (req, res, next) => {
+export const signUp = async (req, res, next) => {
   const { username, email, password } = req.body;
   try {
     const user = await User.create({
@@ -19,7 +19,7 @@ exports.signUp = async (req, res, next) => {
   }
 };
 
-exports.signIn = async (req, res, next) => {
+export const signIn = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password)
@@ -41,7 +41,7 @@ exports.signIn = async (req, res, next) => {
   }
 };
 
-exports.forgotPassword = async (req, res, next) => {
+export const forgotPassword = async (req, res, next) => {
   const { email } = req.body;
 
   try {
@@ -81,7 +81,7 @@ exports.forgotPassword = async (req, res, next) => {
     next(new ErrorResponse('Server Error', 500));
   }
 };
-exports.resetPassword = async (req, res, next) => {
+export const resetPassword = async (req, res, next) => {
   const resetPasswordToken = crypto
     .createHash('sha256')
     .update(req.params.resetToken)
@@ -108,7 +108,7 @@ exports.resetPassword = async (req, res, next) => {
   }
 };
 
-exports.logout = (req, res, next) => {
+export const logout = (req, res, next) => {
   res.clearCookie('headload');
   res.clearCookie('signature');
   res.status(200).json({ msg: 'Sucessful logout' });

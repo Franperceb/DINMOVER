@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 
-const HouseSchema = new Schema(
+const HouseSchema = new mongoose.Schema(
   {
     type: { type: String },
     operationType: { type: String },
@@ -16,5 +16,6 @@ const HouseSchema = new Schema(
     versionKey: false,
   }
 );
-const House = model('House', HouseSchema);
-module.exports = House;
+const House = mongoose.model('House', HouseSchema);
+
+export default House;

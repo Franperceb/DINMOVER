@@ -1,5 +1,5 @@
 import React from 'react';
-import imageLogo from '../../images/dinmover_logo.jpeg';
+import imageLogo from '../../images/dinmover_logo.png';
 
 function NavBar() {
   return (

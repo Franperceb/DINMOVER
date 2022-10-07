@@ -13,7 +13,7 @@ connectDB();
 app.use(express.json());
 
 app.get('/', (req, res, next) => {
-  res.send('appi running');
+  res.send('api running');
 });
 const PORT = process.env.PORT || 8000;
 

@@ -5,14 +5,18 @@ import sendEmail from '../utils/sendEmail.js';
 
 export const signUp = async (req, res, next) => {
   const { username, email, password } = req.body;
+
   try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser)
+      return next(new ErrorResponse('Existing user with email written', 500));
+
     const user = await User.create({
       username,
       email,
       password,
     });
-    console.log(user);
-    console.log(res);
+
     sendToken(user, 201, res);
   } catch (error) {
     next(error);
@@ -108,14 +112,22 @@ export const resetPassword = async (req, res, next) => {
   }
 };
 
-export const logout = (req, res, next) => {
-  res.clearCookie('headload');
-  res.clearCookie('signature');
-  res.status(200).json({ msg: 'Sucessful logout' });
+export const signOut = async (req, res, next) => {
+  if (req.headers && req.headers.authorization) {
+    const token = req.headers.authorization.split(' ')[1];
+
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'Auth failed' });
+    }
+    const tokens = req.user.tokens;
+
+    const newTokens = tokens.filter((t) => t.token !== token);
+    await User.findByIdAndUpdate(req.user._id, { tokens: newTokens });
+    res.status(200).json({ msg: 'Sucessful signOut' });
+  }
 };
 
 const sendToken = (user, statusCode, res) => {
   const token = user.getSignedJwtToken();
-  console.log(token);
   res.status(statusCode).json({ success: true, token });
 };

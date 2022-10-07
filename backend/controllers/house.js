@@ -1,10 +1,33 @@
 import House from '../models/House.js';
+import ErrorResponse from '../utils/errorResponse.js';
 
 export const createHouse = async (req, res, next) => {
-  const { type, operationType, address, description, rooms, baths, price, m2 } =
-    req.body;
+  const {
+    title,
+    location,
+    type,
+    operationType,
+    address,
+    description,
+    rooms,
+    baths,
+    price,
+    m2,
+  } = req.body;
+
   try {
+    const existingHouse = await House.findOne({
+      title: title,
+      type: type,
+      location: location,
+    });
+
+    if (existingHouse)
+      return next(new ErrorResponse('House already exists', 500));
+
     const newHouse = new House({
+      title,
+      location,
       type,
       operationType,
       address,
@@ -20,7 +43,7 @@ export const createHouse = async (req, res, next) => {
       .status(201)
       .json({ success: true, data: 'Información guardada exitosamente' });
   } catch (err) {
-    next(error);
+    next(err);
   }
 };
 export const getHouses = async (req, res, next) => {
@@ -35,7 +58,7 @@ export const getHouseById = async (req, res, next) => {
   const { houseId } = req.params;
   try {
     const house = await House.findById(houseId);
-    if (!house) return next(new ErrorResponse('Casa no existente', 400));
+    if (!house) return next(new ErrorResponse('House does not exist', 400));
     res.status(201).json({ success: true, data: house });
   } catch (err) {
     next(err);
@@ -60,7 +83,7 @@ export const deleteHouseById = async (req, res, next) => {
   const { houseId } = req.params;
   try {
     await House.findByIdAndDelete(houseId);
-    res.status(204).json({ success: true, data: 'Eliminado exitosament' });
+    res.status(204).json({ success: true, data: 'Eliminado exitosamente' });
   } catch (err) {
     next(err);
   }

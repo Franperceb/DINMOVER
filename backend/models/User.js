@@ -31,6 +31,7 @@ const UserSchema = new mongoose.Schema({
   ],
   resetPasswordToken: String,
   resetPasswordExpire: Date,
+  tokens: [{ type: Object }],
 });
 
 UserSchema.pre('save', async function (next) {
@@ -43,9 +44,27 @@ UserSchema.pre('save', async function (next) {
 UserSchema.methods.matchPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
+
 UserSchema.methods.getSignedJwtToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
+  });
+  this.addJwtTokens(token);
+  return token;
+};
+
+UserSchema.methods.addJwtTokens = async function (token) {
+  let oldTokens = this.tokens || [];
+
+  if (oldTokens.length) {
+    oldTokens = oldTokens.filter((t) => {
+      const timeDiff = (Date.now() - parseInt(t.signedAt)) / 1000;
+      if (timeDiff < 86400) return t;
+    });
+  }
+
+  await User.findByIdAndUpdate(this._id, {
+    tokens: [...oldTokens, { token, signedAt: Date.now().toString() }],
   });
 };
 

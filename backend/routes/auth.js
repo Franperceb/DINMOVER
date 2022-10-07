@@ -1,10 +1,11 @@
 import { Router } from 'express';
+import { protect } from '../middleware/auth.js';
 import {
   signUp,
   signIn,
   forgotPassword,
   resetPassword,
-  logout,
+  signOut,
 } from '../controllers/auth.js';
 const router = Router();
 
@@ -14,7 +15,7 @@ router.route('/signIn').post(signIn);
 
 router.route('/forgotPassword').post(forgotPassword);
 
-router.route('/logout').get(logout);
+router.route('/signOut').post(protect, signOut);
 
 router.route('/resetPassword/:resetToken').put(resetPassword);
 

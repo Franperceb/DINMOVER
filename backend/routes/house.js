@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { protect } from '../middleware/auth.js';
+
 import {
   getHouses,
   getHouseById,
@@ -9,10 +11,10 @@ import {
 
 const router = Router();
 
-router.route('/').get(getHouses);
-router.route('/:houseId').get(getHouseById);
-router.route('/').post(createHouse);
-router.route('/:houseId').put(updateHouseById);
-router.route('/houseId').delete(deleteHouseById);
+router.route('/').get(protect, getHouses);
+router.route('/:houseId').get(protect, getHouseById);
+router.route('/').post(protect, createHouse);
+router.route('/:houseId').put(protect, updateHouseById);
+router.route('/houseId').delete(protect, deleteHouseById);
 
 export default router;

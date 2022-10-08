@@ -7,7 +7,7 @@ import AuthRoutes from './routes/auth.js';
 import PrivateRoute from './routes/private.js';
 
 dotenv.config({ path: './config/.env' });
-const app = express();
+export const app = express();
 connectDB();
 
 app.use(express.json());
@@ -24,7 +24,7 @@ app.use('/api/private', PrivateRoute);
 //middlewares
 app.use(errorHandler);
 
-const server = app.listen(PORT, () =>
+export const server = app.listen(PORT, () =>
   console.log(`server running on port  ${PORT}`)
 );
 

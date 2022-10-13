@@ -70,7 +70,7 @@ export const updateHouseById = async (req, res, next) => {
     const updatedHouse = await House.findByIdAndUpdate(houseId, req.body, {
       new: true,
     });
-    if (!house) return next(new ErrorResponse('House does not exist', 400));
+    if (!house) return next(new ErrorResponse('Property does not exist', 400));
     res
       .status(201)
       .json({ success: true, data: 'Información de lote actualizada' });

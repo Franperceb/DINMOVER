@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test:watch": "npm run test -- --watch",
-    "test": "NODE_OPTIONS=--experimental-vm-modules  npx jest --verbose",
+    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules  npx jest --verbose --detectOpenHandles",
     "start": "NODE_ENV=production node server.js",
     "dev": "NODE_ENV=development nodemon server.js --exec babel-node"
   },

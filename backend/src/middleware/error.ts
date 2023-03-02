@@ -1,7 +1,7 @@
 //treath all the errs responses catched
-import ErrorResponse from '../utils/errorResponse.js';
+import ErrorResponse from '../utils/errorResponse';
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err: any, _req: any, res: any) => {
   let error = { ...err };
   error.message = err.message;
 
@@ -10,7 +10,7 @@ const errorHandler = (err, req, res, next) => {
 
   if (err.name == 'ValidationError')
     error = new ErrorResponse(
-      Object.values(err.errors).map((val) => val.message),
+      Object.values(err.errors).map((val: any) => val.message),
       400
     );
 

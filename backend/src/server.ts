@@ -1,21 +1,25 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import errorHandler from './middleware/error.js';
-import connectDB from './config/db.js';
+import connectDB from './utils/db.js';
 import HouseRoutes from './routes/house.js';
 import AuthRoutes from './routes/auth.js';
 import PrivateRoute from './routes/private.js';
+import config from 'config';
 
-dotenv.config({ path: './config/.env' });
+dotenv.config();
+
 export const app = express();
+
 connectDB();
 
 app.use(express.json());
 
-app.get('/', (req, res, next) => {
+app.get('/', (_, res) => {
   res.send('api running');
 });
-const PORT = process.env.PORT || 8000;
+
+const PORT = config.get<number>('port');
 
 //conexion de rutas al server
 app.use('/api/auth', AuthRoutes);
@@ -28,7 +32,7 @@ export const server = app.listen(PORT, () =>
   console.log(`server running on port  ${PORT}`)
 );
 
-process.on('unhandledRejection', (err, promise) => {
+process.on('unhandledRejection', (err: any) => {
   console.log(`Logged Error: ${err.message}`);
   server.close(() => process.exit(1));
 });
@@ -45,3 +49,5 @@ process.on('unhandledRejection', (err, promise) => {
 //se autentica con JWT
 //Configurar middleware de ruta protegida
 //ajustar rutas en el server.js y routes.js con el middleware
+
+//ver si suar nodemon o ts-node-dev

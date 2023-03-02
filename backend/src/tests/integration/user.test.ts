@@ -1,4 +1,4 @@
-import User from '../../models/User.js';
+import User from '../../models/User.model.js';
 import {
   api,
   getUsers,
@@ -29,7 +29,7 @@ describe('User', () => {
 
     expect(usersAtEnd).toHaveLength(usersAtStart.length + 1);
 
-    const usernames = usersAtEnd.map((u) => u.username);
+    const usernames = usersAtEnd.map((u: any) => u.username);
     expect(usernames).toContain(newUserTest.username);
   });
 

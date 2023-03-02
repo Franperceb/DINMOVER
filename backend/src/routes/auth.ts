@@ -7,6 +7,7 @@ import {
   resetPassword,
   signOut,
 } from '../controllers/auth.js';
+
 const router = Router();
 
 router.route('/signUp').post(signUp);

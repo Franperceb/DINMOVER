@@ -1,9 +1,63 @@
-import crypto from 'crypto';
-import mongoose from 'mongoose';
+import { getModelForClass, index, modelOptions, pre, prop } from '@typegoose/typegoose';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 
-const UserSchema = new mongoose.Schema({
+//indexed attribute
+@index({ email: 1 })
+//hash the passwd only if the passwd is new or modified
+@pre<User>('save', async function () {
+  // Hash password if the password is new or was updated
+  if (!this.isModified('password')) return;
+
+  // Hash password with costFactor of 12
+  this.password = await bcrypt.hash(this.password, 12);
+})
+@modelOptions({
+  schemaOptions: {
+    timestamps: true,
+  },
+})
+
+export class User {
+  @prop()
+  username: string;
+  @prop({
+    required: [true, 'Provide a username']
+  })
+  email: string;
+  @prop({
+    required: [true, 'Provide a password'],
+    minLength: 6,
+    select: false
+  })
+  password: string;
+  @prop()
+  role: string;
+
+  // Instance method to check if passwords match
+  async comparePasswords(hashedPassword: string, candidatePassword: string) {
+    return await bcrypt.compare(candidatePassword, hashedPassword);
+  }
+
+}
+
+const userModel = getModelForClass(User);
+
+export default userModel;
+
+
+/*
+export interface UserDocument extends Document {
+  username: String,
+  email: String,
+  password: String,
+  roles: any
+};
+
+export interface UserModel extends Model<UserDocument> {
+  findByIdentity: (this: UserModel, identity: string) => Promise<UserDocument | null>
+}
+
+const UserSchema = new mongoose.Schema<UserDocument, UserModel>({
   username: {
     type: String,
     required: [true, 'Provide a username'],
@@ -31,13 +85,27 @@ const UserSchema = new mongoose.Schema({
   ],
   resetPasswordToken: String,
   resetPasswordExpire: Date,
-  tokens: [{ type: Object }],
+
+  tokens: [{ type: Object }],// another attribute useful implement at final
 });
 
-UserSchema.pre('save', async function (next) {
+
+UserSchema.pre<IUser>('save', async function (next) {
   if (!this.isModified('password')) next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+  next();
+
+  const SALT_WORK_FACTOR = 10;
+
+  if (!this.isModified('password')) return next();
+
+  const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+
+  const hash = await bcrypt.hash(this.password, salt); // Property 'password' does not exist on type 'Document<any>'.
+
+  this.password = hash; // Property 'password' does not exist on type 'Document<any>'.
+
   next();
 });
 
@@ -84,3 +152,4 @@ UserSchema.methods.getResetPasswordToken = function () {
 const User = mongoose.model('User', UserSchema);
 
 export default User;
+*/

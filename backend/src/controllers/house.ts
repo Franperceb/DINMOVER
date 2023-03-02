@@ -1,7 +1,7 @@
 import House from '../models/House.js';
-import ErrorResponse from '../utils/errorResponse.js';
+import ErrorResponse from '../utils/errorResponse';
 
-export const createHouse = async (req, res, next) => {
+export const createHouse = async (req: any, res: any, next: any) => {
   const {
     title,
     location,
@@ -46,7 +46,7 @@ export const createHouse = async (req, res, next) => {
     next(err);
   }
 };
-export const getHouses = async (req, res, next) => {
+export const getHouses = async (_req: any, res: any, next: any) => {
   try {
     const houses = await House.find();
     await res.status(201).json({ success: true, data: houses });
@@ -54,7 +54,7 @@ export const getHouses = async (req, res, next) => {
     next(err);
   }
 };
-export const getHouseById = async (req, res, next) => {
+export const getHouseById = async (req: any, res: any, next: any) => {
   const { houseId } = req.params;
   try {
     const house = await House.findById(houseId);
@@ -64,13 +64,13 @@ export const getHouseById = async (req, res, next) => {
     next(err);
   }
 };
-export const updateHouseById = async (req, res, next) => {
+export const updateHouseById = async (req: any, res: any, next: any) => {
   const { houseId } = req.params;
   try {
     const updatedHouse = await House.findByIdAndUpdate(houseId, req.body, {
       new: true,
     });
-    if (!house) return next(new ErrorResponse('Property does not exist', 400));
+    if (!updatedHouse) return next(new ErrorResponse('Property does not exist', 400));
     res
       .status(201)
       .json({ success: true, data: 'Información de lote actualizada' });
@@ -79,7 +79,7 @@ export const updateHouseById = async (req, res, next) => {
   }
 };
 
-export const deleteHouseById = async (req, res, next) => {
+export const deleteHouseById = async (req: any, res: any, next: any) => {
   const { houseId } = req.params;
   try {
     await House.findByIdAndDelete(houseId);

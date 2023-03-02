@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 import { app } from '../server.js';
-import User from '../models/User.js';
+import User from '../models/User.model.js';
 
 export const api = supertest(app);
 
@@ -75,10 +75,10 @@ export const newUserTest = {
 
 export const getUsers = async () => {
   const usersDB = await User.find({});
-  return usersDB.map((user) => user.toJSON());
+  return usersDB.map((user: any) => user.toJSON());
 };
 
-export const getUserTokens = async (email) => {
+export const getUserTokens = async (email: any) => {
   const userDB = await User.findOne({ email });
   return userDB.tokens;
 };

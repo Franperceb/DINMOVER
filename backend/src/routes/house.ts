@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { protect } from '../middleware/auth.js';
+//import { protect } from '../middleware/auth.ts';
 
 import {
   getHouses,
@@ -11,10 +11,10 @@ import {
 
 const router = Router();
 
-router.route('/').get(protect, getHouses);
-router.route('/:houseId').get(protect, getHouseById);
-router.route('/').post(protect, createHouse);
-router.route('/:houseId').put(protect, updateHouseById);
-router.route('/houseId').delete(protect, deleteHouseById);
+//router.route('/').get(protect, getHouses);
+//router.route('/:houseId').get(protect, getHouseById);
+//router.route('/').post(protect, createHouse);
+//router.route('/:houseId').put(protect, updateHouseById);
+//router.route('/houseId').delete(protect, deleteHouseById);
 
 export default router;

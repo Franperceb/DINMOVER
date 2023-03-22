@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { findAllUsers } from '../services/user.service';
 
-export const getMeHandler = (
+export const getUserHandler = (
   _req: Request,
   res: Response,
   next: NextFunction

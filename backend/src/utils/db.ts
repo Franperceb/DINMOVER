@@ -5,9 +5,11 @@ const dbUrl = `mongodb://${config.get('dbName')}:${config.get(
   'dbPass'
 )}@localhost:6000/jwtAuth?authSource=admin`;
 
+mongoose.set("strictQuery", false);
 
 const connectDB = async () => {
   try {
+    console.log(dbUrl);
     await mongoose.connect(dbUrl);
     console.log('MongoDB CONNECTED');
   }
@@ -19,4 +21,4 @@ const connectDB = async () => {
 
 export default connectDB;
 
-//TODO: install docker and redis
+

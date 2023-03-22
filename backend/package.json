@@ -2,13 +2,13 @@
   "name": "templates",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "server.ts",
   "scripts": {
     "test:watch": "npm run test -- --watch",
     "tsc": "tsc",
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules  npx jest --verbose --detectOpenHandles",
-    "start": "NODE_ENV=production node src/server.js",
-    "dev": "NODE_ENV=development ts-node-dev --respawn --transpile-only src/server.js"
+    "start": "NODE_ENV=production node src/server.ts",
+    "dev": "NODE_ENV=development ts-node-dev --respawn --transpile-only src/server.ts"
   },
   "repository": {
     "type": "git",

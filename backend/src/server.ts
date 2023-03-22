@@ -1,35 +1,73 @@
-import express from 'express';
 import dotenv from 'dotenv';
-import errorHandler from './middleware/error.js';
-import connectDB from './utils/db.js';
-import HouseRoutes from './routes/house.js';
-import AuthRoutes from './routes/auth.js';
-import PrivateRoute from './routes/private.js';
+dotenv.config();
+import morgan from 'morgan';
+import errorHandler from './middleware/error';
+import cookieParser from 'cookie-parser';
+import connectDB from './utils/db';
+//import HouseRoutes from './routes/house';
+import AuthRoutes from './routes/auth';
+//import PrivateRoute from './routes/private';
+import express from 'express';
 import config from 'config';
 
-dotenv.config();
 
 export const app = express();
 
-connectDB();
 
+// Body Parser
 app.use(express.json());
+
+//cookie Parser
+app.use(cookieParser());
+
+//logger
+if (process.env.NODE_ENV === 'development')
+  app.use(morgan('dev'))
+else if (process.env.NODE_ENV === 'production')
+  app.use(morgan('prod'))
+else
+  app.use(morgan('test'))
+
+//route connections
+app.use('/api/auth', AuthRoutes);
+//app.use('/api/houses', HouseRoutes);
+//app.use('/api/private', PrivateRoute);
 
 app.get('/', (_, res) => {
   res.send('api running');
 });
 
-const PORT = config.get<number>('port');
-
-//conexion de rutas al server
-app.use('/api/auth', AuthRoutes);
-app.use('/api/houses', HouseRoutes);
-app.use('/api/private', PrivateRoute);
 //middlewares
 app.use(errorHandler);
 
-export const server = app.listen(PORT, () =>
+
+
+
+
+/*
+// UnKnown Routes
+app.all('*', (req: Request, _res: Response, next: NextFunction) => {
+  const err = new Error(`Route ${req.originalUrl} not found`) as any;
+  err.statusCode = 404;
+  next(err);
+});
+
+// Global Error Handler
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  err.status = err.status || 'error';
+  err.statusCode = err.statusCode || 500;
+
+  res.status(err.statusCode).json({
+    status: err.status,
+    message: err.message,
+  });
+});*/
+
+const PORT = config.get<number>('port');
+export const server = app.listen(PORT, () => {
   console.log(`server running on port  ${PORT}`)
+  connectDB();
+}
 );
 
 process.on('unhandledRejection', (err: any) => {
@@ -50,4 +88,4 @@ process.on('unhandledRejection', (err: any) => {
 //Configurar middleware de ruta protegida
 //ajustar rutas en el server.js y routes.js con el middleware
 
-//ver si suar nodemon o ts-node-dev
+//ver si suar nodemon o ts-node-dev*/

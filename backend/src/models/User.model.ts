@@ -2,32 +2,29 @@ import { getModelForClass, index, modelOptions, pre, prop } from '@typegoose/typ
 import bcrypt from 'bcryptjs';
 import { addJwtToken } from '../services/user.service';
 import crypto from 'crypto';
-
-//indexed attribute
-@index({ email: 1 })
-//hash the passwd only if the passwd is new or modified
-@pre<User>('save', async function () {
-  // Hash password if the password is new or was updated
-  if (!this.isModified('password')) return;
-
-  const salt = await bcrypt.genSalt(10);
-  // Hash password with costFactor of 12
-  this.password = await bcrypt.hash(this.password, salt);
-
-})
-@modelOptions({
-  schemaOptions: {
-    timestamps: true,
-  },
-})
-
 export class JwtToken {
   @prop()
   token: string;
   @prop()
   signedAt: string;
 };
+//indexed attribute
+@index({ email: 1 })
+//hash the passwd only if the passwd is new or modified
+@pre<User>('save', async function (next) {
+  // Hash password if the password is new or was updated
+  if (!this.isModified('password')) return next();
+  const salt = await bcrypt.genSalt(10);
+  // Hash password with costFactor of 12
+  this.password = await bcrypt.hash(this.password, salt);
+  return next();
+})
 
+@modelOptions({
+  schemaOptions: {
+    timestamps: true
+  }
+})
 export class User {
   _id: string;
   @prop()
@@ -87,13 +84,8 @@ export class User {
   };
 };
 
-
-
-
-
 const userModel = getModelForClass(User);
 
 export default userModel;
 
 
-//TODO: DEBUGG HASHING PASSWD WHEN CREATING A NEW USER

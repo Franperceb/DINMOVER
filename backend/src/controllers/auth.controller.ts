@@ -32,9 +32,12 @@ export const registerHandler = async (
   next: NextFunction
 ) => {
   const { password, username, email } = req.body;
-  console.log('entro a ')
 
   try {
+    const existingUser = await findUser({ email });
+
+    if (existingUser) next(new ErrorResponse('Email already used', 500));
+
     const user = await createUser({
       email,
       username,

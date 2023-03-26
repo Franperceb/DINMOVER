@@ -15,7 +15,7 @@ export const signJwt = (payload: Object, options: SignOptions = {}) => {
 
   return token;
 };
-
+//TODO: FIX JWT private key error 
 //check jwt token status.
 //When is null or invalid the token is expired or invalid.
 export const verifyJwt = <T>(token: string): T | null => {

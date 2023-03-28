@@ -21,5 +21,5 @@ const sendEmail = (options: any) => {
     else console.log(info);
   });
 };
-
+//TODO: Validate nodemailer credentials.
 export default sendEmail;

@@ -1,10 +1,10 @@
 
 import { CookieOptions, NextFunction, Request, Response } from 'express';
 import { CreateUserInput, LoginUserInput } from '../schemas/user.schema';
-import { createUser, findUser, signToken } from '../services/user.service';
+import { createUser, findUser, findUserById, signToken, updateUser } from '../services/user.service';
 import ErrorResponse from '../utils/errorResponse';
 import sendEmail from '../utils/sendEmail';
-import crypto from 'crypto';
+//import crypto from 'crypto';
 import config from 'config';
 
 
@@ -116,7 +116,7 @@ export const forgotPasswordHandler = async (
 
     if (!user) return next(new ErrorResponse('Email not sent', 404));
 
-    const resetToken = user.getResetPasswordToken();
+    const resetToken = await user.getResetPasswordToken();
 
     user.save();
 
@@ -144,26 +144,32 @@ export const forgotPasswordHandler = async (
 
       return next(new ErrorResponse('Email not sent server error', 500));
     }
-  } catch {
-    next(new ErrorResponse('Server Error', 500));
+  } catch (err: any) {
+    next(new ErrorResponse('Server Error: ' + err, 500));
   }
 };
 
 
 //reset user's password 
+export const prueba = async (req: any, res: Response) => {
+  console.log(req.headers)
+  console.log('entro?')
+  console.log(req.params.id)
+  res.status(200).json({ success: true, data: 'Email Sent' });
+}
+
 export const resetPassword = async (req: any,
   res: Response,
   next: NextFunction) => {
-  const resetPasswordToken = crypto
-    .createHash('sha256')
-    .update(req.params.resetToken)
-    .digest('hex');
+
+  const resetPasswordToken = req.params.resetToken
+
 
   try {
     const user = await findUser({
       resetPasswordToken,
-      resetPasswordExpire: { $gt: Date.now() },
-    });
+      //   resetPasswordExpire: { $gt: Date.now() },
+    }, {});
 
     if (!user) return next(new ErrorResponse('Invalid reset token', 400));
 
@@ -174,7 +180,7 @@ export const resetPassword = async (req: any,
     res.status(201).json({
       success: true,
       data: 'Password Updated Success',
-      token: await signToken(user),
+      //    token: await signToken(user),
     });
   } catch (err) {
     next(err);
@@ -188,20 +194,21 @@ export const signOut = async (req: any,
   try {
     if (req.headers && req.headers.authorization) {
       const { user_id } = req.body;
-      const user = await findUser({ user_id });
-
+      const user = await findUserById(user_id);
+      console.log(user_id)
       const token = req.headers.authorization.split(' ')[1];
 
       if (!token) {
         return res.status(401).json({ success: false, message: 'Auth failed' });
       }
-      const tokens = req.user.tokens;
+      const tokens = user!.tokens;
 
-      const newTokens = tokens.filter((t: any) => t.token !== token);
+      if (!tokens)
+        return res.status(401).json({ success: false, message: 'User not logged' });
 
-      await findUser(user_id)
+      const newTokens = tokens!.filter((t: any) => t.token !== token);
 
-      user!.update(req.user._id, { tokens: newTokens });
+      await updateUser(user_id, { tokens: newTokens });
 
       res.status(200).json({ msg: 'Sucessful signOut' });
     }

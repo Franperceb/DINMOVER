@@ -70,7 +70,7 @@ export class User {
     await addJwtToken(this._id, oldTokens, newToken);
   }
 
-  getResetPasswordToken = () => {
+  getResetPasswordToken() {
     const resetToken = crypto.randomBytes(20).toString('hex');
 
     this.resetPasswordToken = crypto

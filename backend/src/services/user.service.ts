@@ -14,8 +14,14 @@ export const createUser = async (input: Partial<User>) => {
 };
 
 // Find User by Id
-export const findUserById = async (id: string) => {
+export const findUserById = async (id: any) => {
+  console.log(id)
   const user = await userModel.findById(id).lean();
+  return omit(user, excludedFields);
+};
+
+export const updateUser = async (id: any, options: QueryOptions = {}) => {
+  const user = await userModel.findByIdAndUpdate(id, options)
   return omit(user, excludedFields);
 };
 

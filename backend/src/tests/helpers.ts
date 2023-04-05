@@ -1,6 +1,6 @@
 import supertest from 'supertest';
-import { app } from '../server.js';
-import User from '../models/User.model.js';
+import { app } from '../server';
+import UserModel from '../models/User.model';
 
 export const api = supertest(app);
 
@@ -62,23 +62,28 @@ export const getAllProperties = async () => {
 };
 
 export const userTest = {
-  username: 'jceballos',
-  email: 'giorgio19@gmail.com',
-  password: 'prueba',
+  "username": "jceballos",
+  "email": "test@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234"
 };
+
 
 export const newUserTest = {
-  username: 'jceballos5',
-  email: 'giorgio21@gmail.com',
-  password: 'prueba2',
+  "username": "jceballos",
+  "email": "test2@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234"
 };
 
+
+
 export const getUsers = async () => {
-  const usersDB = await User.find({});
+  const usersDB = await UserModel.find({});
   return usersDB.map((user: any) => user.toJSON());
 };
 
 export const getUserTokens = async (email: any) => {
-  const userDB = await User.findOne({ email });
-  return userDB.tokens;
+  const userDB = await UserModel.findOne({ email });
+  return userDB!.tokens;
 };

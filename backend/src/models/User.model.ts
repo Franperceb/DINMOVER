@@ -1,7 +1,10 @@
-import { getModelForClass, index, modelOptions, pre, prop } from '@typegoose/typegoose';
+import { getModelForClass, index, modelOptions, pre, prop, setGlobalOptions, Severity } from '@typegoose/typegoose';
 import bcrypt from 'bcryptjs';
 import { addJwtToken } from '../services/user.service';
 import crypto from 'crypto';
+
+setGlobalOptions({ options: { allowMixed: Severity.ALLOW } });
+
 export class JwtToken {
   @prop()
   token: string;
@@ -23,8 +26,12 @@ export class JwtToken {
 @modelOptions({
   schemaOptions: {
     timestamps: true
-  }
+
+  },
 })
+
+//{ options: { allowMixed: 'ALLOW' }
+
 export class User {
   _id: string;
   @prop()

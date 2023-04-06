@@ -36,14 +36,14 @@ export const registerHandler = async (
   try {
     const existingUser = await findUser({ email });
 
-    if (existingUser) next(new ErrorResponse('Email already used', 500));
+    if (existingUser) return next(new ErrorResponse('Email already used', 409));
 
     const user = await createUser({
       email,
       username,
       password,
     });
-    //verify what to send 
+
     res.status(201).json({
       status: 'success',
       data: {
@@ -51,12 +51,6 @@ export const registerHandler = async (
       },
     });
   } catch (err: any) {
-    if (err.code === 11000) {
-      return res.status(409).json({
-        status: 'fail',
-        message: 'Email already exist',
-      });
-    }
     return next(err);
   }
 };
@@ -75,7 +69,7 @@ export const loginHandler = async (
     // Check if user exist and password is correct
     if (
       !user ||
-      !(await user.comparePasswords(user.password, req.body.password)) //no funciona
+      !(await user.comparePasswords(user.password, req.body.password))
     ) {
       return next(new ErrorResponse('Invalid email or password', 401));
     }

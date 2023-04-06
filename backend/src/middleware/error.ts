@@ -1,22 +1,14 @@
-import ErrorResponse from '../utils/errorResponse';
+import { Request, Response, NextFunction } from 'express'
 
-const errorHandler = (err: any, _req: any, res: any) => {
-  let error = { ...err };
-  error.message = err.message;
+const errorHandler = (err: any, _req: Request, res: Response, _next: NextFunction) => {
+  err.status = err.status || 'error';
+  err.statusCode = err.statusCode || 500;
 
-  if (err.code == 11000)
-    error = new ErrorResponse(`Duplicate Field value entered`, 400);
-
-  if (err.name == 'ValidationError')
-    //  error = new ErrorResponse(
-    //    Object.values(err.errors).map((val: any) => val.message),
-    //    400
-    //  );
-
-    res.status(error.statusCode || 500).json({
-      success: false,
-      error: error.message || 'Server err',
-    });
+  res.status(err.statusCode).json({
+    status: err.status,
+    message: err.message,
+  });
 };
 
 export default errorHandler;
+

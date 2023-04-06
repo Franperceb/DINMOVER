@@ -7,7 +7,7 @@ import connectDB from './utils/db';
 //import HouseRoutes from './routes/house';
 import AuthRoutes from './routes/auth';
 //import PrivateRoute from './routes/private';
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import config from 'config';
 
 
@@ -41,27 +41,12 @@ app.get('/', (_, res) => {
 app.use(errorHandler);
 
 
-
-
-
-/*
 // UnKnown Routes
 app.all('*', (req: Request, _res: Response, next: NextFunction) => {
   const err = new Error(`Route ${req.originalUrl} not found`) as any;
   err.statusCode = 404;
   next(err);
 });
-
-// Global Error Handler
-app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-  err.status = err.status || 'error';
-  err.statusCode = err.statusCode || 500;
-
-  res.status(err.statusCode).json({
-    status: err.status,
-    message: err.message,
-  });
-});*/
 
 const PORT = config.get<number>('port');
 export const server = app.listen(PORT, () => {

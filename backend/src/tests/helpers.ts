@@ -70,13 +70,16 @@ export const userTest = {
 
 
 export const newUserTest = {
-  "username": "jceballos",
+  "username": "jceballos2",
   "email": "test2@gmail.com",
   "password": "prueba1234",
   "passwordConfirm": "prueba1234"
 };
 
-
+export const userCredentials = {
+  "email": "test@gmail.com",
+  "password": "prueba1234"
+}
 
 export const getUsers = async () => {
   const usersDB = await UserModel.find({});

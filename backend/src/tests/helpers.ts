@@ -63,7 +63,7 @@ export const getAllProperties = async () => {
 
 export const userTest = {
   "username": "jceballos",
-  "email": "test@gmail.com",
+  "email": "testInit@gmail.com",
   "password": "prueba1234",
   "passwordConfirm": "prueba1234"
 };
@@ -71,13 +71,13 @@ export const userTest = {
 
 export const newUserTest = {
   "username": "jceballos2",
-  "email": "test2@gmail.com",
+  "email": "test@gmail.com",
   "password": "prueba1234",
   "passwordConfirm": "prueba1234"
 };
 
 export const userCredentials = {
-  "email": "test@gmail.com",
+  "email": "testInit@gmail.com",
   "password": "prueba1234"
 }
 
@@ -89,4 +89,9 @@ export const getUsers = async () => {
 export const getUserTokens = async (email: any) => {
   const userDB = await UserModel.findOne({ email });
   return userDB!.tokens;
+};
+
+export const getUserId = async (email: any) => {
+  const userDB = await UserModel.findOne({ email });
+  return userDB!._id;
 };

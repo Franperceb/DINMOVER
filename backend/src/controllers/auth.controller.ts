@@ -1,4 +1,3 @@
-
 import { CookieOptions, NextFunction, Request, Response } from 'express';
 import { CreateUserInput, LoginUserInput } from '../schemas/user.schema';
 import { createUser, findUser, findUserById, signToken, updateUser } from '../services/user.service';
@@ -43,6 +42,7 @@ export const registerHandler = async (
       username,
       password,
     });
+
 
     res.status(201).json({
       status: 'success',
@@ -189,9 +189,9 @@ export const signOut = async (req: any,
     if (req.headers && req.headers.authorization) {
       const { user_id } = req.body;
       const user = await findUserById(user_id);
-      console.log(user_id)
+      console.log("USER:" + user.tokens)
       const token = req.headers.authorization.split(' ')[1];
-
+      console.log('TOKEN ' + token)
       if (!token) {
         return res.status(401).json({ success: false, message: 'Auth failed' });
       }

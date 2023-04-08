@@ -144,20 +144,11 @@ export const forgotPasswordHandler = async (
 };
 
 
-//reset user's password 
-export const prueba = async (req: any, res: Response) => {
-  console.log(req.headers)
-  console.log('entro?')
-  console.log(req.params.id)
-  res.status(200).json({ success: true, data: 'Email Sent' });
-}
-
 export const resetPassword = async (req: any,
   res: Response,
   next: NextFunction) => {
 
   const resetPasswordToken = req.params.resetToken
-
 
   try {
     const user = await findUser({
@@ -174,7 +165,7 @@ export const resetPassword = async (req: any,
     res.status(201).json({
       success: true,
       data: 'Password Updated Success',
-      //    token: await signToken(user),
+      //    token: await signToken(user),//verify if it is necessary to send it
     });
   } catch (err) {
     next(err);
@@ -188,12 +179,9 @@ export const signOut = async (req: any,
   try {
     if (req.headers && req.headers.authorization) {
       const { user_id } = req.body;
-      console.log(req.body)
-      console.log(user_id)
       const user = await findUserById(user_id);
-      console.log("USER:" + user.tokens)
       const token = req.headers.authorization.split(' ')[1];
-      console.log('TOKEN ' + token)
+
       if (!token) {
         return res.status(401).json({ success: false, message: 'Auth failed' });
       }

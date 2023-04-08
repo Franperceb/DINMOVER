@@ -9,6 +9,8 @@ import {
   userCredentials,
   getUserTokens,
   getUserId,
+  newUserPass,
+  getResetToken,
 } from '../helpers';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -115,16 +117,55 @@ describe('User', () => {
     );
   });
 
-  /*
-    test('reset password works', async () => {
-      await api.post('/api/auth/signIn').send(userTest);
-  
-      console.log(userToken);
-    });
-    */
+  test('forgot password and email is sent to generate a new one', async () => {
+    const result = await api.post('/api/auth/forgot-password')
+      .send(userCredentials)
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    const resetPasswordToken = await getResetToken(userCredentials.email);
+    expect(resetPasswordToken).not.toBe(null);
+    expect(result.text).toContain('Email Sent');
+  });
+
+  test('email is not sent when user does not exist', async () => {
+
+    const result = await api.post('/api/auth/forgot-password')
+      .send(newUserTest.email)
+      .expect(404)
+      .expect('Content-Type', /application\/json/);
+
+    expect(result.body.message).toContain('Email not sent');
+  });
+
+  test('reset password is successful', async () => {
+
+    await api.post('/api/auth/forgot-password').send(userCredentials);
+
+    const resetPasswordToken = await getResetToken(userCredentials.email);
+
+    const result = await api.put(`/api/auth/reset-password/${resetPasswordToken}`)
+      .send(newUserPass)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    expect(result.body.data).toContain('Password Updated Success');
+  });
+
+  test('reset password failed, no user with reset token password', async () => {
+
+    const resetPasswordToken = await getResetToken(userCredentials.email);
+
+    const result = await api.put(`/api/auth/reset-password/${resetPasswordToken}`)
+      .send(newUserPass)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(result.body.message).toContain('Invalid reset token');
+  });
+
   afterAll(() => {
     server.close();
   })
 });
 
-//TODO: finish forgot and reset password to test 

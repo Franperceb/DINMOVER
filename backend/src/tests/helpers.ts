@@ -79,7 +79,9 @@ export const newUserTest = {
 export const userCredentials = {
   "email": "testInit@gmail.com",
   "password": "prueba1234"
-}
+};
+
+export const newUserPass = { "password": "test1234" };
 
 export const getUsers = async () => {
   const usersDB = await UserModel.find({});
@@ -95,3 +97,10 @@ export const getUserId = async (email: any) => {
   const userDB = await UserModel.findOne({ email });
   return userDB!._id;
 };
+
+export const getResetToken = async (email: any) => {
+  const userDB = await UserModel.findOne({ email });
+  return userDB!.resetPasswordToken;
+};
+
+

@@ -22,22 +22,18 @@ describe('User', () => {
   });
 
   test('is created successfully', async () => {
-    try {
-      const usersAtStart = await getUsers();
-      await api
-        .post('/api/auth/sign-up')
-        .send(newUserTest)
-        .expect(201)
-        .expect('Content-Type', /application\/json/);
-      const usersAtEnd = await getUsers();
+    const usersAtStart = await getUsers();
+    await api
+      .post('/api/auth/sign-up')
+      .send(newUserTest)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+    const usersAtEnd = await getUsers();
 
-      expect(usersAtEnd).toHaveLength(usersAtStart.length + 1);
+    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1);
 
-      const emails = usersAtEnd.map((u: any) => u.email);
-      expect(emails).toContain(newUserTest.email);
-    } catch (error) {
-      console.log(error)
-    }
+    const emails = usersAtEnd.map((u: any) => u.email);
+    expect(emails).toContain(newUserTest.email);
   });
 
   test('creation fails with proper status and message if email is already taken', async () => {
@@ -80,7 +76,7 @@ describe('User', () => {
   });
 
   test('is logged successfully on multiple devices', async () => {
-    userCredentials.email = 'test@gmail.com';
+    userCredentials.email = 'testInit@gmail.com';
     const userTokensBeforeLog = await getUserTokens(userCredentials.email);
     await api
       .post('/api/auth/sign-in')
@@ -93,46 +89,42 @@ describe('User', () => {
   });
 
   test('is logged out successfully', async () => {
-    const user_id = (await getUserId(userTest.email)).toString();
-
+    const user_id = (await getUserId(userCredentials.email));
     await api.post('/api/auth/sign-in').send(userCredentials);
-    const userTokensBeforeLog = await getUserTokens(userCredentials.email);
-    console.log(userTokensBeforeLog)
+    const userTokensBeforeLogOut = await getUserTokens(userCredentials.email);
     await api
       .post('/api/auth/sign-out')
-      .send(user_id)
-      .set('Authorization', 'Bearer ' + userTokensBeforeLog[0].token)
+      .send({ user_id })
+      .set('Authorization', 'Bearer ' + userTokensBeforeLogOut[0].token)
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    const userTokens = await getUserTokens(userCredentials.email);
+    expect(userTokens).toHaveLength(userTokensBeforeLogOut.length - 1);
+  });
+
+  test('failed to sign out. No session found', async () => {
+    const result = await api
+      .post('/api/auth/sign-out')
+      .set('Authorization', 'Bearer 123452')
       .expect(401)
       .expect('Content-Type', /application\/json/);
 
-    //console.log(result)
-
-    //  const userTokens = await getUserTokens(userCredentials.email);
-    //  expect(userTokens).toHaveLength(userTokensBeforeLog.length - 1);
+    expect(result.text).toContain(
+      'User not logged'
+    );
   });
+
   /*
-    test('failed to sign out. No session found', async () => {
-      const result = await api
-        .post('/api/auth/signOut')
-        .set('Authorization', 'Bearer 123452')
-        .set('Content-Type', 'application/json')
-        .expect(401)
-        .expect('Content-Type', /application\/json/);
+    test('reset password works', async () => {
+      await api.post('/api/auth/signIn').send(userTest);
   
-      expect(result.body.error).toContain(
-        'Not authorized to access this router!'
-      );
+      console.log(userToken);
     });
-    /*
-      test('reset password works', async () => {
-        await api.post('/api/auth/signIn').send(userTest);
-    
-        console.log(userToken);
-      });
-      */
+    */
   afterAll(() => {
     server.close();
   })
 });
 
-//TODO: finish all routes to be tested
+//TODO: finish forgot and reset password to test 

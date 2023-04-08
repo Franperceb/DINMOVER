@@ -188,6 +188,8 @@ export const signOut = async (req: any,
   try {
     if (req.headers && req.headers.authorization) {
       const { user_id } = req.body;
+      console.log(req.body)
+      console.log(user_id)
       const user = await findUserById(user_id);
       console.log("USER:" + user.tokens)
       const token = req.headers.authorization.split(' ')[1];

@@ -32,7 +32,6 @@ describe('Users', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
 
-    console.log(result.body.data.users)
     expect(result.body.data.users).toHaveLength(initialUsers.length);
 
   });

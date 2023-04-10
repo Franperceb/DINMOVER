@@ -43,19 +43,18 @@ export const signToken = async (user: DocumentType<User>) => {
   const access_token = signJwt(
     { sub: user._id },
     {
-      expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`
+      expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
     }
   );
 
   // Create a Session
-  redisClient.set(`user:id:${user.username}`, JSON.stringify(user), {
-    EX: 60 * 60,
+  redisClient.set(user.id, JSON.stringify(user), {
+    EX: 60 * 60 * 1024,
   });
 
   // Return access token
   return { access_token };
 };
-
 //
 export const addJwtToken = async (id: string,
   oldTokens: [type: JwtToken], newToken: JwtToken) => {

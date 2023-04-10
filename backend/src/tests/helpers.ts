@@ -4,6 +4,35 @@ import UserModel from '../models/User.model';
 
 export const api = supertest(app);
 
+export const initialUsers = [{
+  "username": "jceballos",
+  "email": "testInit@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234",
+  "role": "admin"
+},
+{
+  "username": "userTest2",
+  "email": "test2@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234"
+},
+{
+  "username": "userTest3",
+  "email": "test3@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234"
+},
+{
+  "username": "userTestAdmin4",
+  "email": "testAdmin4@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234",
+  "role": "admin"
+}
+];
+
+
 export const initialProperties = [
   {
     title: 'Casa Real 1',
@@ -65,7 +94,8 @@ export const userTest = {
   "username": "jceballos",
   "email": "testInit@gmail.com",
   "password": "prueba1234",
-  "passwordConfirm": "prueba1234"
+  "passwordConfirm": "prueba1234",
+  "role": "admin"
 };
 
 

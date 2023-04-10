@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import AppError from '../utils/errorResponse';
+import ErrorResponse from '../utils/errorResponse';
 
 export const restrictAccess =
   (...allowedRoles: string[]) =>
@@ -7,7 +7,7 @@ export const restrictAccess =
       const user = res.locals.user;
       if (!allowedRoles.includes(user.role)) {
         return next(
-          new AppError('You are not allowed to perform this action', 403)
+          new ErrorResponse('You are not allowed to perform this action', 403)
         );
       }
 

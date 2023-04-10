@@ -13,7 +13,7 @@ router.use(deserializeUser, requireUser);
 // Admin Get Users route
 router.get('/', restrictAccess('admin'), getAllUsersHandler);
 
-// Get my info route
+// Get user info route
 router.get('/user-info', getUserHandler);
 
 export default router;

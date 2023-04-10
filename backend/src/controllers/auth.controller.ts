@@ -30,18 +30,27 @@ export const registerHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { password, username, email } = req.body;
+  const { password, username, email, role } = req.body;
+
+
 
   try {
     const existingUser = await findUser({ email });
 
     if (existingUser) return next(new ErrorResponse('Email already used', 409));
 
-    const user = await createUser({
-      email,
-      username,
-      password,
-    });
+    const user = role == null ?
+      await createUser({
+        email,
+        username,
+        password,
+      }) :
+      await createUser({
+        email,
+        username,
+        password,
+        role
+      });
 
 
     res.status(201).json({

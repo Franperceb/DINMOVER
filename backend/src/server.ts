@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './utils/db';
 //import HouseRoutes from './routes/house';
 import AuthRoutes from './routes/auth';
-//import PrivateRoute from './routes/private';
+import UserRoutes from './routes/user'
 import express, { Request, Response, NextFunction } from 'express';
 import config from 'config';
 
@@ -15,7 +15,7 @@ export const app = express();
 
 
 // Body Parser
-app.use(express.json());
+app.use(express.json({ limit: '10kb' }));
 
 //cookie Parser
 app.use(cookieParser());
@@ -23,15 +23,11 @@ app.use(cookieParser());
 //logger
 if (process.env.NODE_ENV === 'development')
   app.use(morgan('dev'))
-else if (process.env.NODE_ENV === 'production')
-  app.use(morgan('prod'))
-else
-  app.use(morgan('test'))
 
 //route connections
 app.use('/api/auth', AuthRoutes);
 //app.use('/api/houses', HouseRoutes);
-//app.use('/api/private', PrivateRoute);
+app.use('/api/users', UserRoutes);
 
 app.get('/', (_, res) => {
   res.send('api running');
@@ -60,17 +56,3 @@ process.on('unhandledRejection', (err: any) => {
   server.close(() => process.exit(1));
 });
 
-//PASOS: Fullstack app
-//configurar node, servidor.
-//escribir logica de rutas.
-// se conecta routes a server
-//Se crean controlladores
-//se crea el modelo del user
-// se conecta la db
-//se realiza el errorHandler Middleware
-//se ajustan controllers a detalle uno por uno
-//se autentica con JWT
-//Configurar middleware de ruta protegida
-//ajustar rutas en el server.js y routes.js con el middleware
-
-//ver si suar nodemon o ts-node-dev*/

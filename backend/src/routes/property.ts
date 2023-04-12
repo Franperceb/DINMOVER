@@ -19,6 +19,6 @@ router.get('/', restrictAccess('admin', 'user'), getAllPropertiesHandler);
 router.get('/:propertyId', restrictAccess('admin', 'user'), getPropertyHandler);
 router.post('/', restrictAccess('admin', 'user'), validate(createPropertySchema), registerPropertyHandler);
 router.put('/:propertyId', restrictAccess('admin', 'user'), validate(createPropertySchema), updatePropertyHandler);
-router.delete('/propertyId', restrictAccess('admin'), deletePropertyHandler);
+router.delete('/:propertyId', restrictAccess('admin'), deletePropertyHandler);
 
 export default router;

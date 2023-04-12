@@ -14,7 +14,6 @@ export const createPropertySchema = object({
     baths: number({ required_error: 'Provide number of baths' }),
     price: number({ required_error: 'Missing price of the property' }),
     m2: number({ required_error: 'Missing m2 of the property' }),
-    user_id: string({ required_error: 'No user captured' })
   })
 });
 

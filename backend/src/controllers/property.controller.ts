@@ -1,14 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import ErrorResponse from '../utils/errorResponse.js';
-import { findProperty, createProperty, findAllProperties, updateProperty, deletePropertyById, findPropertyById } from '../services/property.service.js';
-import { CreatePropertySchema } from '../schemas/property.schema.js';
-import { Property } from '../models/Property.model.js';
+import ErrorResponse from '../utils/errorResponse';
+import { findProperty, createProperty, findAllProperties, updateProperty, deletePropertyById, findPropertyById } from '../services/property.service';
+import { CreatePropertySchema } from '../schemas/property.schema';
+import { Property } from '../models/Property.model';
 export const registerPropertyHandler = async (
   req: Request<{}, {}, CreatePropertySchema>,
   res: Response,
   next: NextFunction) => {
 
-  const { user_id, username } = res.locals.user.user_id;
+  const user_id = res.locals.user._id;
+  const username = res.locals.user.username;
   const property: Property = { ...req.body, user_id };
   const { title, property_type, operation_type } = req.body;
   try {
@@ -20,7 +21,7 @@ export const registerPropertyHandler = async (
 
     res
       .status(201)
-      .json({ success: true, data: `Property "${title}" succesfully added by User: "${username}"` });
+      .json({ success: true, data: `Property: ${title} succesfully added by User: ${username}` });
   } catch (err) {
     next(err);
   }
@@ -52,7 +53,8 @@ export const updatePropertyHandler = async (
   req: Request<any, {}, CreatePropertySchema>,
   res: Response,
   next: NextFunction) => {
-  const { user_id, username } = res.locals.user.user_id;
+  const user_id = res.locals.user._id;
+  const username = res.locals.user.username;
   const property: Property = { ...req.body, user_id };
   const { propertyId } = req.params;
 
@@ -61,20 +63,26 @@ export const updatePropertyHandler = async (
     if (!updatedProperty) return next(new ErrorResponse('Property does not exist', 400));
     res
       .status(201)
-      .json({ success: true, data: `Property "${property.title}" succesfully updated by User: "${username}"` });
+      .json({ success: true, data: `Property: ${property.title} succesfully updated by User: ${username}` });
   } catch (err) {
     next(err);
   }
 };
 
-export const deletePropertyHandler = async (req: any, res: any, next: any) => {
+export const deletePropertyHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction) => {
   const { propertyId } = req.params;
   try {
-    const existingProperty = await findPropertyById({ propertyId })
+    const existingProperty = await findPropertyById(propertyId)
 
     if (!existingProperty) return next(new ErrorResponse('Property does not exist', 409));
     await deletePropertyById(propertyId);
-    res.status(204).json({ success: true, data: 'Property successfully deleted' });
+
+    res
+      .status(201)
+      .json({ success: true, data: 'Property successfully deleted' });
   } catch (err) {
     next(err);
   }

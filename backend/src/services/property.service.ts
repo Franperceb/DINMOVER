@@ -1,4 +1,4 @@
-import propertyModel, { Property } from '../models/Property.model.js';
+import propertyModel, { Property } from '../models/Property.model';
 import { FilterQuery, QueryOptions } from 'mongoose';
 
 
@@ -11,7 +11,7 @@ export const findAllProperties = async () => {
 };
 
 export const findPropertyById = async (id: any) => {
-  const property = await propertyModel.findById(id).lean();
+  const property = await propertyModel.findById(id);
   return property;
 };
 

@@ -1,8 +1,37 @@
 import supertest from 'supertest';
-import { app } from '../server.js';
-import User from '../models/User.model.js';
+import { app } from '../server';
+import UserModel from '../models/User.model';
 
 export const api = supertest(app);
+
+export const initialUsers = [{
+  "username": "jceballos",
+  "email": "testInit@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234",
+  "role": "admin"
+},
+{
+  "username": "userTest2",
+  "email": "test2@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234"
+},
+{
+  "username": "userTest3",
+  "email": "test3@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234"
+},
+{
+  "username": "userTestAdmin4",
+  "email": "testAdmin4@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234",
+  "role": "admin"
+}
+];
+
 
 export const initialProperties = [
   {
@@ -62,23 +91,46 @@ export const getAllProperties = async () => {
 };
 
 export const userTest = {
-  username: 'jceballos',
-  email: 'giorgio19@gmail.com',
-  password: 'prueba',
+  "username": "jceballos",
+  "email": "testInit@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234",
+  "role": "admin"
 };
+
 
 export const newUserTest = {
-  username: 'jceballos5',
-  email: 'giorgio21@gmail.com',
-  password: 'prueba2',
+  "username": "jceballos2",
+  "email": "test@gmail.com",
+  "password": "prueba1234",
+  "passwordConfirm": "prueba1234"
 };
 
+export const userCredentials = {
+  "email": "testInit@gmail.com",
+  "password": "prueba1234"
+};
+
+export const newUserPass = { "password": "test1234" };
+
 export const getUsers = async () => {
-  const usersDB = await User.find({});
+  const usersDB = await UserModel.find({});
   return usersDB.map((user: any) => user.toJSON());
 };
 
 export const getUserTokens = async (email: any) => {
-  const userDB = await User.findOne({ email });
-  return userDB.tokens;
+  const userDB = await UserModel.findOne({ email });
+  return userDB!.tokens;
 };
+
+export const getUserId = async (email: any) => {
+  const userDB = await UserModel.findOne({ email });
+  return userDB!._id;
+};
+
+export const getResetToken = async (email: any) => {
+  const userDB = await UserModel.findOne({ email });
+  return userDB!.resetPasswordToken;
+};
+
+

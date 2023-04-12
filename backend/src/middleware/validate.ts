@@ -12,6 +12,7 @@ export const validate =
         });
 
         next();
+        return 200;
       } catch (err: any) {
         if (err instanceof ZodError) {
           return res.status(400).json({

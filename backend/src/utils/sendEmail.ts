@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-const sendEmail = (options: any) => {
+const sendEmail = async (options: any) => {
   const transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
     auth: {
@@ -16,9 +16,9 @@ const sendEmail = (options: any) => {
     html: options.text,
   };
 
-  transporter.sendMail(mailOptions, function (err, info) {
-    if (err) console.log(err);
-    else console.log(info);
+  await transporter.sendMail(mailOptions, async function (err, info) {
+    if (err) return err;
+    return info;
   });
 };
 

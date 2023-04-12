@@ -7,12 +7,14 @@ export const signJwt = (payload: Object, options: SignOptions = {}) => {
     config.get<string>('accessTokenPrivateKey'),
     'base64'
   ).toString('ascii');
-  return jwt.sign(payload, privateKey, {
-    ...(options && options),
-    algorithm: 'RS256',
-  });
-};
 
+  const token = jwt.sign(payload, privateKey, {
+    ...(options && options),
+    algorithm: 'RS256'
+  });
+
+  return token;
+};
 //check jwt token status.
 //When is null or invalid the token is expired or invalid.
 export const verifyJwt = <T>(token: string): T | null => {
@@ -21,8 +23,10 @@ export const verifyJwt = <T>(token: string): T | null => {
       config.get<string>('accessTokenPublicKey'),
       'base64'
     ).toString('ascii');
-    return jwt.verify(token, publicKey) as T;
+    return jwt.verify(token, publicKey, { algorithms: ['RS256'] }) as T;
   } catch (error) {
     return null;
   }
 };
+
+

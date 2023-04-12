@@ -4,7 +4,7 @@ import { object, string, TypeOf } from 'zod';
 
 export const createUserSchema = object({
   body: object({
-    name: string({ required_error: 'Username is required' }),
+    username: string({ required_error: 'Username is required' }),
     email: string({ required_error: 'Email is required' }).email(
       'Invalid email'
     ),
@@ -12,6 +12,7 @@ export const createUserSchema = object({
       .min(8, 'Password must be more than 8 characters')
       .max(32, 'Password must be less than 32 characters'),
     passwordConfirm: string({ required_error: 'Please confirm your password' }),
+    role: string().optional()
   }).refine((data) => data.password === data.passwordConfirm, {
     path: ['passwordConfirm'],
     message: 'Passwords do not match',

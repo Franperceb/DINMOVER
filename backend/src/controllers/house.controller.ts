@@ -1,6 +1,6 @@
-import House from '../models/House.js';
-import ErrorResponse from '../utils/errorResponse';
-
+import House from '../models/House.model.js';
+import ErrorResponse from '../utils/errorResponse.js';
+//TODO: modify to TS correctly the constants
 export const createHouse = async (req: any, res: any, next: any) => {
   const {
     title,

@@ -11,6 +11,7 @@ export class JwtToken {
   @prop()
   signedAt: string;
 };
+
 //indexed attribute
 @index({ email: 1 })
 //hash the passwd only if the passwd is new or modified
@@ -30,7 +31,6 @@ export class JwtToken {
   },
 })
 
-//{ options: { allowMixed: 'ALLOW' }
 
 export class User {
   _id: string;

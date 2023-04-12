@@ -1,20 +1,25 @@
 import { Router } from 'express';
-//import { protect } from '../middleware/auth.ts';
-
 import {
   getHouses,
   getHouseById,
   createHouse,
   updateHouseById,
   deleteHouseById,
-} from '../controllers/house.js';
+} from '../controllers/house.controller';
+import { deserializeUser } from '../middleware/deserializeUser';
+import { requireUser } from '../middleware/requireUser';
+import { restrictAccess } from '../middleware/restrictAccess';
+import { createUserSchema } from '../schemas/user.schema';
+import { validate } from '../middleware/validate';
 
+//TODO: Create House validations 
 const router = Router();
+router.use(deserializeUser, requireUser);
 
-//router.route('/').get(protect, getHouses);
-//router.route('/:houseId').get(protect, getHouseById);
-//router.route('/').post(protect, createHouse);
-//router.route('/:houseId').put(protect, updateHouseById);
-//router.route('/houseId').delete(protect, deleteHouseById);
+router.get('/', restrictAccess('admin'), getHouses);
+router.get('/:houseId', restrictAccess('admin'), getHouseById);
+router.post('/', restrictAccess('admin', 'user'), validate(createUserSchema), createHouse);
+router.put('/:houseId', restrictAccess('admin', 'user'), validate(createUserSchema), updateHouseById);
+router.delete('/houseId', restrictAccess('admin'), deleteHouseById);
 
 export default router;

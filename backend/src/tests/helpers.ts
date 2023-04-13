@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import { app } from '../server';
 import UserModel from '../models/User.model';
+import propertyModel from '../models/Property.model';
 
 export const api = supertest(app);
 
@@ -37,9 +38,9 @@ export const initialProperties = [
   {
     title: 'Casa Real 1',
     location: 'Monterrey',
-    type: 'casa',
-    operationType: 'venta',
-    adress: 'Quinta Cadiz',
+    property_type: 'casa',
+    operation_type: 'venta',
+    address: 'Quinta Cadiz',
     description: 'Casa bonita cerca del mar',
     rooms: 3,
     baths: 3,
@@ -49,9 +50,9 @@ export const initialProperties = [
   {
     title: 'Departamento Real 2',
     location: 'Veracruz',
-    type: 'departamento',
-    operationType: 'rent',
-    adress: 'Torre Real',
+    property_type: 'departamento',
+    operation_type: 'rent',
+    address: 'Torre Real',
     description: 'Departamento bonito con vista al mar',
     rooms: 2,
     baths: 2,
@@ -61,9 +62,11 @@ export const initialProperties = [
   {
     title: 'Terreno Real 2',
     location: 'CDMX',
-    type: 'terreno',
-    operationType: 'venta',
-    adress: ' ',
+    property_type: 'terreno',
+    operation_type: 'venta',
+    address: ' ',
+    rooms: 1,
+    baths: 2,
     description: 'terreno a lado de la condesa',
     price: 5000000,
     m2: 210,
@@ -71,11 +74,11 @@ export const initialProperties = [
 ];
 
 export const newProperty = {
-  title: 'Casa Real 1',
+  title: 'Casa Real 2',
   location: 'Monterrey',
-  type: 'casa',
-  operationType: 'venta',
-  adress: 'Quinta Cadiz',
+  property_type: 'casa',
+  operation_type: 'venta',
+  address: 'Quinta Cadiz',
   description: 'Casa bonita cerca del mar',
   rooms: 3,
   baths: 3,
@@ -83,12 +86,6 @@ export const newProperty = {
   m2: 190,
 };
 
-export const getAllProperties = async () => {
-  const response = await api.get('/api/houses');
-  //validar que tenga  la longitud igual
-  //  return response.body.map(p. =>)
-  return response;
-};
 
 export const userTest = {
   "username": "jceballos",
@@ -133,4 +130,8 @@ export const getResetToken = async (email: any) => {
   return userDB!.resetPasswordToken;
 };
 
+export const getUserIDFromProperty = async (title: any, location: any, property_type: any) => {
+  const property = await propertyModel.findOne({ title, location, property_type });
+  return property!.user_id;
+};
 

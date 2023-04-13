@@ -14,6 +14,15 @@ const connectRedis = async () => {
     setTimeout(connectRedis, 5000);
   }
 };
+export const disconnectRedis = async () => {
+  try {
+    await redisClient.disconnect();
+    console.log('Redis client disconnected...');
+  } catch (err: any) {
+    console.log(err.message);
+    setTimeout(disconnectRedis, 5000);
+  }
+};
 
 connectRedis();
 

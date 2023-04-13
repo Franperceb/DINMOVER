@@ -1,5 +1,7 @@
 
 import UserModel from '../../models/User.model';
+import { mongoose } from '@typegoose/typegoose';
+import { disconnectRedis } from '../../utils/redis';
 import { server } from '../../server';
 import {
   api,
@@ -164,7 +166,9 @@ describe('User', () => {
     expect(result.body.message).toContain('Invalid reset token');
   });
 
-  afterAll(() => {
+  afterAll(async () => {
+    await mongoose.connection.close();
+    await disconnectRedis();
     server.close();
   })
 });

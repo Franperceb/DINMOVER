@@ -62,7 +62,7 @@ export const updatePropertyHandler = async (
     const updatedProperty = await updateProperty(propertyId, property);
     if (!updatedProperty) return next(new ErrorResponse('Property does not exist', 400));
     res
-      .status(201)
+      .status(200)
       .json({ success: true, data: `Property: ${property.title} succesfully updated by User: ${username}` });
   } catch (err) {
     next(err);
@@ -81,7 +81,7 @@ export const deletePropertyHandler = async (
     await deletePropertyById(propertyId);
 
     res
-      .status(201)
+      .status(200)
       .json({ success: true, data: 'Property successfully deleted' });
   } catch (err) {
     next(err);

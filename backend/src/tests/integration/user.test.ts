@@ -1,4 +1,5 @@
 import UserModel from '../../models/User.model';
+import { mongoose } from '@typegoose/typegoose';
 import { server } from '../../server';
 import {
   api,
@@ -8,6 +9,7 @@ import {
   getUserId,
 } from '../helpers';
 import dotenv from 'dotenv';
+import { disconnectRedis } from '../../utils/redis';
 dotenv.config();
 
 
@@ -38,6 +40,7 @@ describe('Users', () => {
 
   test('get correctly the logged user info', async () => {
     const userTokens = await getUserTokens(userCredentials.email);
+
     const user_id = await getUserId(userCredentials.email);
     const expected = decodeURI(encodeURI(user_id))
 
@@ -51,7 +54,9 @@ describe('Users', () => {
     expect(result.body.data.user._id).toEqual(expected);
   });
 
-  afterAll(() => {
+  afterAll(async () => {
+    await mongoose.connection.close();
+    await disconnectRedis();
     server.close();
   })
 });

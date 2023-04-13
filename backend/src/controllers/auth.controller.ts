@@ -3,7 +3,6 @@ import { CreateUserInput, LoginUserInput } from '../schemas/user.schema';
 import { createUser, findUser, findUserById, signToken, updateUser } from '../services/user.service';
 import ErrorResponse from '../utils/errorResponse';
 import sendEmail from '../utils/sendEmail';
-//import crypto from 'crypto';
 import config from 'config';
 
 

@@ -9,7 +9,7 @@ import { DocumentType } from '@typegoose/typegoose';
 
 // CreateUser service
 export const createUser = async (input: Partial<User>) => {
-  const user = (await userModel.create(input));
+  const user = await userModel.create(input);
   return omit(user.toJSON(), excludedFields);
 };
 
@@ -49,7 +49,7 @@ export const signToken = async (user: DocumentType<User>) => {
 
   // Create a Session
   redisClient.set(user.id, JSON.stringify(user), {
-    EX: 60 * 60 * 1024,
+    EX: 60 * 60,
   });
 
   // Return access token

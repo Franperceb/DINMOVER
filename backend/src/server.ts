@@ -4,9 +4,9 @@ import morgan from 'morgan';
 import errorHandler from './middleware/error';
 import cookieParser from 'cookie-parser';
 import connectDB from './utils/db';
-//import HouseRoutes from './routes/house';
 import AuthRoutes from './routes/auth';
-import UserRoutes from './routes/user'
+import UserRoutes from './routes/user';
+import PropertyRoutes from './routes/property';
 import express, { Request, Response, NextFunction } from 'express';
 import config from 'config';
 
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'development')
 
 //route connections
 app.use('/api/auth', AuthRoutes);
-//app.use('/api/houses', HouseRoutes);
+app.use('/api/properties', PropertyRoutes);
 app.use('/api/users', UserRoutes);
 
 app.get('/', (_, res) => {

@@ -1,8 +1,10 @@
 import { getModelForClass, index, modelOptions, mongoose, prop, } from '@typegoose/typegoose';
 import userModel from './User.model';
-
 //indexed attribute
 @index({ city: 1 })
+@index({ user_id: 1 })
+@index({ property_type: 1 })
+@index({ operation_type: 1 })
 
 @modelOptions({
   schemaOptions: {
@@ -10,7 +12,7 @@ import userModel from './User.model';
   },
 })
 
-export class House {
+export class Property {
   @prop({
     required: [true, 'Provide the title of the property']
   })
@@ -26,6 +28,8 @@ export class House {
   @prop()
   address: string;
   @prop()
+  description: string;
+  @prop()
   rooms: number;
   @prop()
   baths: number;
@@ -38,7 +42,7 @@ export class House {
 };
 
 
-const houseModel = getModelForClass(House);
+const propertyModel = getModelForClass(Property);
 
-export default houseModel;
+export default propertyModel;
 

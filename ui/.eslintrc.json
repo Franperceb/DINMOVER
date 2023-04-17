@@ -9,7 +9,6 @@
     "react/jsx-props-no-spreading": "off",
     "max-len": ["error", 140],
     "linebreak-style": "off",
-    "quotes": [2, "single", { "avoidEscape": true }],
     "react-require-default-props": "off",
     "comma-dangle": "off",
     "no-useless-catch": "off",
@@ -29,29 +28,11 @@
       }
     ],
     "no-unused-expressions": "off",
-    "@typescript-eslint/ban-types": [
-      "error",
-      {
-        "types": {
-          "String": true,
-          "Number": true,
-          "Boolean": true,
-          "Symbol": true,
-          "{}": false,
-          "Object": true,
-          "object": true,
-          "Function": true
-        },
-        "extendsDefault": true
-      }
-    ],
     "react/no-unescaped-entities": 0,
     "no-explicit-any": "off",
     "react/react-jsx-in-scope": "off",
-    "react/jsx-filename-extension": [1, { "extension": ["tsx", "jsx"] }],
     "implicit-arrow-linebreak": "off",
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["error"],
     "object-curly-newline": "off",
     "max-classes-per-file": ["error", 4],
     "default-case": "off",

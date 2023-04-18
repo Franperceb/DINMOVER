@@ -15,7 +15,7 @@ const nextConfig = {
     ],
   },
   env: {
-    API_URL: 'prueba',
+    API_URL: 'http://localhost:8000',
   },
 };
 

@@ -1,19 +1,29 @@
-"use client";
+'use client';
 
-import { GiHouse } from "react-icons/gi";
-import { BiSearch } from "react-icons/bi";
-import { BsBell } from "react-icons/bs";
-import { HiOutlineMenu } from "react-icons/hi";
-import Image from "next/image";
-import { useState } from "react";
+import { GiHouse } from 'react-icons/gi';
+import { BiSearch } from 'react-icons/bi';
+import { BsBell } from 'react-icons/bs';
+import { HiOutlineMenu } from 'react-icons/hi';
+import Image from 'next/image';
+import { useState } from 'react';
+import { ScrollableMenuProps } from '../models/menu.models';
 
-function TopNavigation() {
-  const [search, setSearch] = useState("");
+function TopNavigation({
+  onMouseOver,
+  handleSidebarToggle,
+}: ScrollableMenuProps) {
+  const [search, setSearch] = useState('');
 
   return (
     <div className="flex justify-between items-center p-4">
-      <div className="flex items-center gap-6">
-        <HiOutlineMenu size={26} />
+      <div
+        onMouseEnter={onMouseOver}
+        onMouseLeave={onMouseOver}
+        className="flex items-center gap-6"
+      >
+        <button onClick={handleSidebarToggle}>
+          <HiOutlineMenu size={26} />
+        </button>
         <div className="flex items-center gap-1">
           <GiHouse size={30} className="text-indigo-500" />
           <span className="text-x1 ">DINMOVER</span>

@@ -8,19 +8,12 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { ScrollableMenuProps } from '../models/menu.models';
 
-function TopNavigation({
-  onMouseOver,
-  handleSidebarToggle,
-}: ScrollableMenuProps) {
+function TopNavigation({ handleSidebarToggle }: ScrollableMenuProps) {
   const [search, setSearch] = useState('');
 
   return (
     <div className="flex justify-between items-center p-4 bg-gray-50  border-b-2 border-zinc-200">
-      <div
-        onMouseEnter={onMouseOver}
-        onMouseLeave={onMouseOver}
-        className="flex items-center gap-6"
-      >
+      <div className="flex items-center gap-6">
         <button className="hover:animate-pulse" onClick={handleSidebarToggle}>
           <HiOutlineMenu size={26} />
         </button>

@@ -1,48 +1,41 @@
+'use client';
 import Image from 'next/image';
-import { BsDot, BsThreeDotsVertical } from 'react-icons/bs';
-import { feedVideos } from './models/menu.models';
+import { BsEye, BsDot } from 'react-icons/bs';
+import { IoIosRemove } from 'react-icons/io';
+import { TbHomeEdit } from 'react-icons/tb';
+import { feedProperties } from './models/properties.models';
+import { Card } from '../../components';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  const goToRoute = (route: string) => {
+    router.push(route);
+  };
+
   return (
     <div className="flex flex-col px-8 py-4 md:flex-row flex-wrap gap-10 lg:gap-4 flex-1">
-      {feedVideos.map((video) => (
-        <div className="flex flex-col gap-3 w-[340px]">
-          <div className="">
-            <Image
-              src={video.thumbnailUrl}
-              height={180}
-              width={340}
-              alt="thumbnail"
-              className="rounded-lg"
-            />
+      {feedProperties.map((property) => (
+        <div className="flex flex-col gap-4 w-[340px]">
+          <div className="flex  justify-center gap-6 ">
+            <button
+              onClick={() => goToRoute('/admin/property-edit')}
+              className="rounded-full p-2 bg-blue-200 hover:bg-blue-400"
+            >
+              <TbHomeEdit size={20} />
+            </button>
+            <button
+              onClick={() => goToRoute('/admin/property')}
+              className="rounded-full p-2 bg-gray-200  hover:bg-gray-400"
+            >
+              <BsEye />
+            </button>
+            <button className=" rounded-full p-2 bg-red-400 text-white  hover:bg-red-600">
+              <IoIosRemove size={20} />
+            </button>
           </div>
-          <div className="flex gap-3">
-            <div>
-              <Image
-                src="https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_400x400.jpg"
-                height={40}
-                width={40}
-                alt="user image"
-                className="rounded-full"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex justify-between">
-                <span className="font-semibold text-zinc max-w-[80%]">
-                  {video.title}
-                </span>
-                <BsThreeDotsVertical />
-              </div>
-              <div className="text-sm text-zinc-400">
-                <span>{video.channelName}</span>
-                <div className="flex items-center">
-                  <span>{video.viewCount}</span>
-                  <BsDot />
-                  <span>{video.createdAt.toDateString()}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Card data={property} />
         </div>
       ))}
     </div>

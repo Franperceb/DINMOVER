@@ -1,12 +1,7 @@
 'use client';
 import { HiHome, HiUsers } from 'react-icons/hi';
 import { usePathname, useRouter } from 'next/navigation';
-import {
-  MenuItem,
-  ScrollableMenuProps,
-  SideBarProps,
-} from '../models/menu.models';
-import { useState } from 'react';
+import { MenuItem, SideBarProps } from '../models/menu.models';
 
 const MenuItems: Array<MenuItem> = [
   {
@@ -21,7 +16,7 @@ const MenuItems: Array<MenuItem> = [
   },
 ];
 
-function SideNavigation({ isCollapsible, toggleCollapse }: SideBarProps) {
+function SideNavigation({ toggleCollapse }: SideBarProps) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -30,8 +25,9 @@ function SideNavigation({ isCollapsible, toggleCollapse }: SideBarProps) {
   };
   return (
     <div
-      className={`p-[4px] lg:px-2 lg:w-[${!toggleCollapse ? '260px' : '40px'}]
-       bg-gray-50`}
+      className={`p-[4px] lg:px-2 
+      ${!toggleCollapse ? 'lg:w-[260px]' : 'lg:w-[80px]'}
+    bg-gray-50`}
     >
       {MenuItems.map((item, index) => (
         <div

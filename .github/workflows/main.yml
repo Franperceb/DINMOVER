@@ -1,0 +1,33 @@
+name: DINMOVER CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore DINMOVER.sln
+
+    - name: Build solution
+      # This step serves as a basic compilation check.
+      run: msbuild /p:Configuration=Release DINMOVER.sln
+
+    - name: Run tests
+      # No test framework detected. Add a step here to run your tests.
+      # For example: vstest.console.exe YourTestProject.dll
+      run: echo "No test step configured."
